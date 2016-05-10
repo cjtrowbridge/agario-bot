@@ -8,8 +8,9 @@ struct target playerMove(struct player me,
 {
     struct target t;
     
-    t.dx = 0;
-    t.dy = 0;
+    // Move to the lower-right
+    t.dx = 100;
+    t.dy = 100;
     
     return t;
 }
