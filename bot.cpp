@@ -160,6 +160,13 @@ void onVirusSplit(sio::event &e)
     h.socket()->emit("2", e.get_message());
 }
 
+void onRIP(sio::event &e)
+{
+    std::cout << "Dead!" << std::endl;
+    h.socket()->close();
+    exit(0);
+}
+
 int main(int argc, char *argv[])
 {
     std::map<std::string, std::string> query;
@@ -184,7 +191,7 @@ int main(int argc, char *argv[])
     //h.socket()->on("serverMSG", &onMessage);
     //h.socket()->on("serverSendPlayerChat", &onMessage);
     h.socket()->on("serverTellPlayerMove", &onTellPlayerMove);
-    h.socket()->on("RIP", &onMessage);
+    h.socket()->on("RIP", &onRIP);
     h.socket()->on("kick", &onMessage);
     h.socket()->on("virusSplit", &onVirusSplit);
     
