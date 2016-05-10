@@ -46,8 +46,6 @@ void onWelcome(sio::event &e)
 
 void onTellPlayerMove(sio::event &e)
 {
-    onMessage(e);
-    
     sio::message::list events = e.get_messages();
     
     // 0 - visible players
@@ -100,12 +98,10 @@ void onTellPlayerMove(sio::event &e)
     h.socket()->emit("0", sio::message::list(msg));
     
     free(foodArr);
-    
 }
 
 int main(int argc, char *argv[])
 {
-
     std::map<std::string, std::string> query;
     query["type"] = "player";
     h.connect(URL, query);
