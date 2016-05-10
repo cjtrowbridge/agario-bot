@@ -12,7 +12,17 @@
 
 Run `make`
 
-# Modify
+# Run the bot
+
+First, start the Agar.io Clone server. In the server directory:
+
+    npm start
+    
+Then run your bot
+
+    ./bot
+
+# Program your bot
 
 Edit player.c
 
