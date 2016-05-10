@@ -57,12 +57,19 @@ void onTellPlayerMove(sio::event &e)
         std::static_pointer_cast<sio::array_message>(events[1]);
     std::shared_ptr<sio::array_message> players =
         std::static_pointer_cast<sio::array_message>(events[0]);
+    std::shared_ptr<sio::array_message> mass =
+        std::static_pointer_cast<sio::array_message>(events[2]);
+    std::shared_ptr<sio::array_message> virii =
+        std::static_pointer_cast<sio::array_message>(events[3]);
 
     //std::shared_ptr<sio::array_message> foodList = 
     //    std::static_pointer_cast<sio::array_message>(dataList->at(1));
 
-    // Get player cell
+    // Get current player and other players
     struct player me;
+    struct player *playerArr = (struct player *)malloc((players->size() - 1) * sizeof(struct player));
+    int pa_count = 0;
+    
     for (int i = 0; i < players->size(); i++)
     {
         std::shared_ptr<sio::object_message> p =
@@ -72,10 +79,19 @@ void onTellPlayerMove(sio::event &e)
             me.x = p->at("x")->get_double();
             me.y = p->at("y")->get_double();
             me.totalMass = p->at("massTotal")->get_double();
-            me.cells = NULL;
+            me.cells = NULL;  // TODO
+        }
+        else
+        {
+            playerArr[pa_count].x = p->at("x")->get_double();
+            playerArr[pa_count].y = p->at("y")->get_double();
+            playerArr[pa_count].totalMass = p->at("massTotal")->get_double();
+            playerArr[pa_count].cells = NULL; // TODO
+            pa_count++;
         }
     }
     
+    // Get food list
     struct food *foodArr = (struct food *)malloc(foods->size() * sizeof(struct food));
 
     for (int i = 0; i < foods->size(); i++)
@@ -89,7 +105,40 @@ void onTellPlayerMove(sio::event &e)
         foodArr[i].mass = food->at("mass")->get_double();
     }
     
-    struct target t = playerMove(me, foodArr, foods->size());
+    // Get virus list
+    struct cell *virusArr = (struct cell *)malloc(virii->size() * sizeof(struct cell));
+
+    for (int i = 0; i < virii->size(); i++)
+    {
+        if (virii->at(i)->get_flag() != sio::message::flag_object) return;
+        std::shared_ptr<sio::object_message> virus = 
+            std::static_pointer_cast<sio::object_message>(virii->at(i));
+        //std::cout << i << ": " << virus->at("x")->get_double() << "," << virus->at("y")->get_double() << std::endl;
+        virusArr[i].x = virus->at("x")->get_double();
+        virusArr[i].y = virus->at("y")->get_double();
+        virusArr[i].mass = virus->at("mass")->get_double();
+    }
+    
+    // Get mass list
+    struct cell *massArr = (struct cell *)malloc(mass->size() * sizeof(struct cell));
+
+    for (int i = 0; i < mass->size(); i++)
+    {
+        if (mass->at(i)->get_flag() != sio::message::flag_object) return;
+        std::shared_ptr<sio::object_message> m = 
+            std::static_pointer_cast<sio::object_message>(mass->at(i));
+        //std::cout << i << ": " << m->at("x")->get_double() << "," << m->at("y")->get_double() << std::endl;
+        massArr[i].x = m->at("x")->get_double();
+        massArr[i].y = m->at("y")->get_double();
+        massArr[i].mass = m->at("mass")->get_double();
+    }
+    
+    
+    struct target t = playerMove(me,
+                                 playerArr, pa_count, 
+                                 foodArr, foods->size(),
+                                 virusArr, virii->size(),
+                                 massArr, mass->size());
     
     auto msg = std::static_pointer_cast<sio::object_message>(sio::object_message::create());
     msg->insert("x", sio::double_message::create(t.dx));
