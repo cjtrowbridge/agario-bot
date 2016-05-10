@@ -117,12 +117,12 @@ int main(int argc, char *argv[])
     h.socket()->on("connect_failed", &onMessage);
     h.socket()->on("disconnect", &onMessage);
     h.socket()->on("gameSetup", &onMessage);
-    h.socket()->on("playerDied", &onMessage);
-    h.socket()->on("playerDisconnect", &onMessage);
-    h.socket()->on("playerJoin", &onMessage);
-    h.socket()->on("leaderboard", &onMessage);
-    h.socket()->on("serverMSG", &onMessage);
-    h.socket()->on("serverSendPlayerChat", &onMessage);
+    //h.socket()->on("playerDied", &onMessage);
+    //h.socket()->on("playerDisconnect", &onMessage);
+    //h.socket()->on("playerJoin", &onMessage);
+    //h.socket()->on("leaderboard", &onMessage);
+    //h.socket()->on("serverMSG", &onMessage);
+    //h.socket()->on("serverSendPlayerChat", &onMessage);
     h.socket()->on("serverTellPlayerMove", &onTellPlayerMove);
     h.socket()->on("RIP", &onMessage);
     h.socket()->on("kick", &onMessage);
