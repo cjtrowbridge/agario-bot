@@ -155,6 +155,11 @@ void onTellPlayerMove(sio::event &e)
     free(virusArr);
 }
 
+void onVirusSplit(sio::event &e)
+{
+    h.socket()->emit("2");
+}
+
 int main(int argc, char *argv[])
 {
     std::map<std::string, std::string> query;
@@ -181,7 +186,7 @@ int main(int argc, char *argv[])
     h.socket()->on("serverTellPlayerMove", &onTellPlayerMove);
     h.socket()->on("RIP", &onMessage);
     h.socket()->on("kick", &onMessage);
-    h.socket()->on("virusSplit", &onMessage);
+    h.socket()->on("virusSplit", &onVirusSplit);
     
     //std::cerr << "ping\n";
     //h.socket()->emit("ping");
