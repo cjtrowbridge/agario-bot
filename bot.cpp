@@ -147,6 +147,9 @@ void onTellPlayerMove(sio::event &e)
     h.socket()->emit("0", sio::message::list(msg));
     
     free(foodArr);
+    free(playerArr);
+    free(massArr);
+    free(virusArr);
 }
 
 int main(int argc, char *argv[])
