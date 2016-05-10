@@ -6,6 +6,9 @@
 
 #include "bot.h"
 
+#define PLAYERNAME "test"
+#define URL "http://localhost:8080"
+
 sio::message::ptr currentPlayerJson;
 sio::client h;
 
@@ -24,7 +27,7 @@ void onWelcome(sio::event &e)
         
         std::shared_ptr<sio::object_message> player = std::static_pointer_cast<sio::object_message>(currentPlayerJson);
         
-        player->insert("name", sio::string_message::create("bbtest"));
+        player->insert("name", sio::string_message::create(PLAYERNAME));
         player->insert("screenHeight", sio::int_message::create(600));
         player->insert("screenWidth", sio::int_message::create(600));
 
@@ -105,7 +108,7 @@ int main(int argc, char *argv[])
 
     std::map<std::string, std::string> query;
     query["type"] = "player";
-    h.connect("http://localhost:8080", query);
+    h.connect(URL, query);
     
     // Give time for connection to be established
     do {
