@@ -18,10 +18,12 @@ struct player {
     struct cell *cells; // Array of cells
 };
 
-// The target of a player move
-struct target {
+// The actions for the bot to take
+struct action {
     double dx;      // delta x
     double dy;      // delta y
+    int fire;       // 0 or 1
+    int split;      // 0 or 1
 };
 
 
@@ -30,7 +32,7 @@ struct target {
 extern "C" {
 #endif
 
-struct target playerMove(struct player me, 
+struct action playerMove(struct player me, 
                          struct player * players, int nplayers,
                          struct food * foods, int nfood,
                          struct cell * virii, int nvirii,

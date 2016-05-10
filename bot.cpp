@@ -134,17 +134,20 @@ void onTellPlayerMove(sio::event &e)
     }
     
     
-    struct target t = playerMove(me,
+    struct action a = playerMove(me,
                                  playerArr, pa_count, 
                                  foodArr, foods->size(),
                                  virusArr, virii->size(),
                                  massArr, mass->size());
     
     auto msg = std::static_pointer_cast<sio::object_message>(sio::object_message::create());
-    msg->insert("x", sio::double_message::create(t.dx));
-    msg->insert("y", sio::double_message::create(t.dy));
+    msg->insert("x", sio::double_message::create(a.dx));
+    msg->insert("y", sio::double_message::create(a.dy));
     
     h.socket()->emit("0", sio::message::list(msg));
+    
+    if (a.fire) h.socket()->emit("1");
+    if (a.split) h.socket()->emit("2");
     
     free(foodArr);
     free(playerArr);
