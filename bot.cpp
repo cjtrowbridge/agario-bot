@@ -157,7 +157,7 @@ void onTellPlayerMove(sio::event &e)
 
 void onVirusSplit(sio::event &e)
 {
-    h.socket()->emit("2");
+    h.socket()->emit("2", e.get_message());
 }
 
 int main(int argc, char *argv[])
