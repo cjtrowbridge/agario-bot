@@ -188,6 +188,9 @@ void onTellPlayerMove(sio::event &e)
 
 void onVirusSplit(sio::event &e)
 {
+    std::shared_ptr<sio::int_message> v = 
+        std::static_pointer_cast<sio::int_message>(e.get_message());
+    std::cout << "virusSplit " << v->get_int() << std::endl;
     h.socket()->emit("2", e.get_message());
 }
 
