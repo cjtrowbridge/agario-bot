@@ -201,6 +201,13 @@ void onRIP(sio::event &e)
     exit(0);
 }
 
+void onKick(sio::event &e)
+{
+    std::cout << "You've been kicked off!" << std::endl;
+    h.socket()->close();
+    exit(0);
+}
+
 int main(int argc, char *argv[])
 {
     if (argc > 1)
@@ -230,7 +237,7 @@ int main(int argc, char *argv[])
     //h.socket()->on("serverSendPlayerChat", &onMessage);
     h.socket()->on("serverTellPlayerMove", &onTellPlayerMove);
     h.socket()->on("RIP", &onRIP);
-    h.socket()->on("kick", &onMessage);
+    h.socket()->on("kick", &onKick);
     h.socket()->on("virusSplit", &onVirusSplit);
     
     //std::cerr << "ping\n";
