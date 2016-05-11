@@ -79,14 +79,41 @@ void onTellPlayerMove(sio::event &e)
             me.x = p->at("x")->get_double();
             me.y = p->at("y")->get_double();
             me.totalMass = p->at("massTotal")->get_double();
-            me.cells = NULL;  // TODO
+
+            std::shared_ptr<sio::array_message> cells =
+                std::static_pointer_cast<sio::array_message>(p->at("cells"));
+            me.cells = (struct cell *)malloc(cells->size() * sizeof(struct cell));
+            for (int c = 0; c < cells->size(); c++)
+            {
+                std::shared_ptr<sio::object_message> cell =
+                    std::static_pointer_cast<sio::object_message>(cells->at(c));
+                me.cells[c].x = cell->at("x")->get_double();
+                me.cells[c].y = cell->at("y")->get_double();
+                me.cells[c].mass = cell->at("mass")->get_double();
+                me.cells[c].radius = cell->at("radius")->get_double();
+            }
+            me.ncells = cells->size();
         }
         else
         {
             playerArr[pa_count].x = p->at("x")->get_double();
             playerArr[pa_count].y = p->at("y")->get_double();
             playerArr[pa_count].totalMass = p->at("massTotal")->get_double();
-            playerArr[pa_count].cells = NULL; // TODO
+            
+            std::shared_ptr<sio::array_message> cells =
+                std::static_pointer_cast<sio::array_message>(p->at("cells"));
+            playerArr[pa_count].cells = (struct cell *)malloc(cells->size() * sizeof(struct cell));
+            for (int c = 0; c < cells->size(); c++)
+            {
+                std::shared_ptr<sio::object_message> cell =
+                    std::static_pointer_cast<sio::object_message>(cells->at(c));
+                playerArr[pa_count].cells[c].x = cell->at("x")->get_double();
+                playerArr[pa_count].cells[c].y = cell->at("y")->get_double();
+                playerArr[pa_count].cells[c].mass = cell->at("mass")->get_double();
+                playerArr[pa_count].cells[c].radius = cell->at("radius")->get_double();
+            }
+            playerArr[pa_count].ncells = cells->size();
+            
             pa_count++;
         }
     }
@@ -133,7 +160,7 @@ void onTellPlayerMove(sio::event &e)
         massArr[i].mass = m->at("mass")->get_double();
     }
     
-    
+    // Call playerMove from player.c
     struct action a = playerMove(me,
                                  playerArr, pa_count, 
                                  foodArr, foods->size(),
@@ -149,10 +176,14 @@ void onTellPlayerMove(sio::event &e)
     if (a.fire) h.socket()->emit("1");
     if (a.split) h.socket()->emit("2");
     
-    free(foodArr);
-    free(playerArr);
-    free(massArr);
-    free(virusArr);
+    // Free malloc'd memory
+    if (me.cells) free (me.cells);
+    for (int i = 0; i < pa_count; i++)
+        if (playerArr[i].cells) free (playerArr[i].cells);
+    if (foodArr) free(foodArr);
+    if (playerArr) free(playerArr);
+    if (massArr) free(massArr);
+    if (virusArr) free(virusArr);
 }
 
 void onVirusSplit(sio::event &e)
