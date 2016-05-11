@@ -6,7 +6,7 @@
 
 #include "bot.h"
 
-#define PLAYERNAME "test"
+std::string BOTNAME = "bot";
 #define URL "http://localhost:8080"
 
 sio::message::ptr currentPlayerJson;
@@ -27,7 +27,7 @@ void onWelcome(sio::event &e)
         
         std::shared_ptr<sio::object_message> player = std::static_pointer_cast<sio::object_message>(currentPlayerJson);
         
-        player->insert("name", sio::string_message::create(PLAYERNAME));
+        player->insert("name", sio::string_message::create(BOTNAME));
         player->insert("screenHeight", sio::int_message::create(600));
         player->insert("screenWidth", sio::int_message::create(600));
 
@@ -169,6 +169,11 @@ void onRIP(sio::event &e)
 
 int main(int argc, char *argv[])
 {
+    if (argc > 1)
+    {
+        BOTNAME = argv[1];
+    }
+    
     std::map<std::string, std::string> query;
     query["type"] = "player";
     h.connect(URL, query);
@@ -183,7 +188,6 @@ int main(int argc, char *argv[])
     h.socket()->on("pong", &onMessage);
     h.socket()->on("connect_failed", &onMessage);
     h.socket()->on("disconnect", &onMessage);
-    h.socket()->on("gameSetup", &onMessage);
     //h.socket()->on("playerDied", &onMessage);
     //h.socket()->on("playerDisconnect", &onMessage);
     //h.socket()->on("playerJoin", &onMessage);
