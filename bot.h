@@ -16,6 +16,7 @@ struct player {
     double y;
     double totalMass;   // Sum of cell masses
     struct cell *cells; // Array of cells
+    int ncells;         // Number of cells
 };
 
 // The actions for the bot to take
