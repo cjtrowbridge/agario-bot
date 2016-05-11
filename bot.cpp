@@ -3,6 +3,7 @@
 #include "sio_message.h"
 #include "sio_socket.h"
 #include <unistd.h>
+#include <cstring>
 
 #include "bot.h"
 
@@ -76,6 +77,7 @@ void onTellPlayerMove(sio::event &e)
             std::static_pointer_cast<sio::object_message>(players->at(i));
         if (! p->has("id"))
         {
+            std::strcpy(me.id, "");
             me.x = p->at("x")->get_double();
             me.y = p->at("y")->get_double();
             me.totalMass = p->at("massTotal")->get_double();
@@ -96,6 +98,7 @@ void onTellPlayerMove(sio::event &e)
         }
         else
         {
+            std::strcpy(playerArr[pa_count].id, p->at("id")->get_string().c_str());
             playerArr[pa_count].x = p->at("x")->get_double();
             playerArr[pa_count].y = p->at("y")->get_double();
             playerArr[pa_count].totalMass = p->at("massTotal")->get_double();
