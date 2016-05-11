@@ -157,7 +157,7 @@ void onTellPlayerMove(sio::event &e)
         //std::cout << i << ": " << m->at("x")->get_double() << "," << m->at("y")->get_double() << std::endl;
         massArr[i].x = m->at("x")->get_double();
         massArr[i].y = m->at("y")->get_double();
-        massArr[i].mass = m->at("mass")->get_double();
+        massArr[i].mass = m->at("masa")->get_double();
     }
     
     // Call playerMove from player.c
