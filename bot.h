@@ -12,6 +12,7 @@ struct cell {
 };
 
 struct player {
+    char id[32];
     double x;           // Center of mass
     double y;
     double totalMass;   // Sum of cell masses
