@@ -7,8 +7,8 @@
 
 #include "bot.h"
 
-std::string BOTNAME = "bot";
-#define URL "http://localhost:8080"
+std::string BOTNAME = "EAT THE RICH!";
+#define URL "http://flame.runwire.com:8080"
 
 sio::message::ptr currentPlayerJson;
 sio::client h;
