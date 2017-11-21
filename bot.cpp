@@ -7,8 +7,11 @@
 
 #include "bot.h"
 
-std::string BOTNAME = "EAT THE RICH!";
+int globalMode;
+
+std::string BOTNAME = "EATtheRICH";
 #define URL "http://flame.runwire.com:8080"
+//#define URL "http://node.cjtrowbridge.com:8080"
 
 sio::message::ptr currentPlayerJson;
 sio::client h;
@@ -217,6 +220,12 @@ int main(int argc, char *argv[])
     {
         BOTNAME = argv[1];
     }
+    
+    //seed random number generator
+    srand(time(NULL));
+    
+    //set global mode to hunter by default
+    globalMode = 1;
     
     std::map<std::string, std::string> query;
     query["type"] = "player";
