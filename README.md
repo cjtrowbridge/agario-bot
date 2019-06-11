@@ -45,23 +45,23 @@ All your programming happens in the playerMove function in player.c.
 
 The function is given the following pieces of data:
 
-*. struct player me -- Information about the current player (the bot)
-*. struct player * players -- Array of other visible players
-*. int nplayers -- Number of players
-*. struct food * foods -- Array of visible food
-*. int nfood -- Number of visible food
-*. struct cell * virii -- Array of visible virii
-*. int nvirii -- Number of visible virii
-*. struct cell * mass -- Array of visible mass
-*. int nmass -- Number of visible mass
+* struct player me -- Information about the current player (the bot)
+* struct player * players -- Array of other visible players
+* int nplayers -- Number of players
+* struct food * foods -- Array of visible food
+* int nfood -- Number of visible food
+* struct cell * virii -- Array of visible virii
+* int nvirii -- Number of visible virii
+* struct cell * mass -- Array of visible mass
+* int nmass -- Number of visible mass
 Every time playerMove is called, the arrays are filled with the objects that are visible. The visibility is limited to a 600x600 square around the bot. Your job is to use the information in the arrays to make a better decision about where to move.
 
 Make your decision and put the information into a struct action:
 
-*. dx -- direction to move
-*. dy -- direction to move
-*. fire -- 0 or 1
-*. split -- 0 or 1
+* dx -- direction to move
+* dy -- direction to move
+* fire -- 0 or 1
+* split -- 0 or 1
 
 Some things that you could try are:
 
