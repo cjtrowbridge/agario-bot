@@ -78,12 +78,15 @@ To sort the food array by distance from the player, use the qsort function:
 
 With the array sorted you can simply use the 0th element of the array and go toward its x-y location by subtracting them from the player's x-y location:
 
-`act.dx = foods[0].x - me.x;
-act.dy = foods[0].y - me.y; `
+```
+act.dx = foods[0].x - me.x;
+act.dy = foods[0].y - me.y; 
+```
 
 To make the sorting work you'll need a comparison function. Here I've called it dist:
 
-`int dist(const void *a, const void *b)
+```
+int dist(const void *a, const void *b)
 {
     double ax = (*(struct food *)a).x;
     double ay = (*(struct food *)a).y;
@@ -93,11 +96,13 @@ To make the sorting work you'll need a comparison function. Here I've called it 
     double dist_to_a = sqrt((myx - ax)*(myx - ax) + (myy - ay)*(myy - ay)); 
     double dist_to_b = sqrt((myx - bx)*(myx - bx) + (myy - by)*(myy - by));
     return dist_to_a - dist_to_b;
-} `
+} 
+```
 
 You'll need to set up a couple of global doubles to hold the player's x and y position so they are available to the dist function. Here's what playerMove ends up looking like:
 
-`struct action playerMove(struct player me, 
+```
+struct action playerMove(struct player me, 
                          struct player * players, int nplayers,
                          struct food * foods, int nfood,
                          struct cell * virii, int nvirii,
@@ -119,4 +124,5 @@ You'll need to set up a couple of global doubles to hold the player's x and y po
     act.split = 0;
     
     return act;
-} `
+} 
+```
